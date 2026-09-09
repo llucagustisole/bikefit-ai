@@ -1,0 +1,7 @@
+streamlit
+mediapipe
+anthropic
+scipy
+opencv-python-headless
+numpy
+reportlab
