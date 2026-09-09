@@ -256,8 +256,11 @@ with st.expander("📋 Instrucciones de Grabación para un Análisis Preciso", e
 
 with st.sidebar:
     st.header("⚙️ Configuración")
-    api_key_input = st.text_input("Anthropic API Key", type="password", help="Formato: sk-ant-api03-...")
-
+    if "ANTHROPIC_API_KEY" in st.secrets and st.secrets["ANTHROPIC_API_KEY"]:
+        st.success("🔑 API Key cargada desde el servidor")
+        api_key_input = st.secrets["ANTHROPIC_API_KEY"]
+    else:
+        api_key_input = st.text_input("Anthropic API Key", type="password", help="Formato: sk-ant-api03-...")
 uploaded_file = st.file_uploader("Sube tu vídeo de análisis en plano sagital", type=["mp4", "mov", "avi"])
 
 if uploaded_file:
