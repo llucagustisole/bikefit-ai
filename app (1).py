@@ -119,8 +119,13 @@ def draw_landmarks_on_image(rgb_image, detection_result, fase="PMI"):
 
     return annotated_clean, annotated_hud, angulos
 
-def generar_informe_bikefit(angulos, rangos, api_key):
-    client = anthropic.Anthropic(api_key=api_key.strip())
+def generar_informe_bikefit(angulos, rangos, api_key_user=""):
+    # Prioridad: 1. Entrada manual en la app | 2. Secrets de Streamlit | 3. Variable de entorno
+    api_key = api_key_user.strip() or st.secrets.get("ANTHROPIC_API_KEY", "") or os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        raise ValueError("No se ha encontrado ninguna API Key válida.")
+    client = anthropic.Anthropic(api_key=api_key)
+    
     def estado_angulo(fase, art):
         val = angulos[fase][art]
         mn, mx = rangos[fase][art]
